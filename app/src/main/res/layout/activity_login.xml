@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:background="#29000000">
+
+    <include layout="@layout/fondo_video" />
+
+    <!--Like Spotify image-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+
+
+
+
+    </LinearLayout>
+
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="192dp"
+        android:layout_height="192dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        app:srcCompat="@drawable/app03" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:background="@drawable/bg_cuadros_texto2"
+        android:padding="12dp"
+        android:hint="Correo electrónico"
+        android:inputType="textEmailAddress"
+        android:id="@+id/txtEmail"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/txtEmail"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:background="@drawable/bg_cuadros_texto2"
+        android:padding="12dp"
+        android:hint="Clave"
+        android:inputType="textPassword"
+        android:id="@+id/txtPassword"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:id="@+id/rlLoginGoogle"
+        android:layout_below="@+id/txtPassword"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="36dp"
+        android:background="@drawable/boton_redondeado_3"
+        android:layout_marginLeft="36dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/google_icon"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Iniciar Sesión con Google"
+            android:textSize="18dp"
+            android:layout_centerInParent="true"/>
+
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/boton_redondeado"
+        android:text="Iniciar Sesión"
+        android:textAllCaps="false"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/rlLoginGoogle"
+        android:textColor="@android:color/white"
+        app:backgroundTint="@null" />
+
+
+</RelativeLayout>
+

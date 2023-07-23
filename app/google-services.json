@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1084021759750",
+    "project_id": "chmd-nueva-app",
+    "storage_bucket": "chmd-nueva-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084021759750:android:667651e4a79b250f0b4887",
+        "android_client_info": {
+          "package_name": "mx.com.edu.chmd2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084021759750-lafvdm4ee1bvuvtvrdjtp0463ipibv16.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD5i6GKdmLL63108yHBUwj88aX_k__pvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084021759750-lafvdm4ee1bvuvtvrdjtp0463ipibv16.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

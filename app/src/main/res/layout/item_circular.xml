@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    android:elevation="12dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_margin="4dp"
+        android:weightSum="100"
+
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="90">
+
+            <CheckBox
+                android:id="@+id/chkSelectCircular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:buttonTint="@color/textoOscuro" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:weightSum="100"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:weightSum="100">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="15"
+                    android:clickable="true"
+                    android:id="@+id/llContainer"
+                    android:weightSum="100">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="10">
+
+                        <RelativeLayout
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:id="@+id/rlNoLeido"
+                            android:visibility="gone"
+                            android:layout_marginRight="4dp"
+                            android:background="@drawable/boton_redondeado"
+                            android:layout_marginTop="10dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/rlNoLeido"
+
+                            android:text="Aqui va el nombre de la circular"
+                            android:layout_marginTop="6dp"
+                            android:textColor="@color/textoMasOscuro"
+                            android:id="@+id/lblCircular"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Aqui va la fecha de la circular"
+                            android:layout_marginTop="6dp"
+                            android:textSize="12dp"
+                            android:layout_below="@id/lblCircular"
+                            android:textColor="@color/textoOscuro"
+                            android:id="@+id/lblFecha"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Para"
+                            android:layout_marginTop="6dp"
+                            android:textSize="12dp"
+                            android:layout_below="@id/lblFecha"
+                            android:textColor="@color/textoClaro"
+                            android:id="@+id/lblPara"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="85"
+                    android:id="@+id/rlItemFav"
+
+
+                    >
+
+                    <CheckBox
+                        android:id="@+id/imgFavorita"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/star_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:src="@drawable/estrella_fav" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="90"
+                android:orientation="vertical"
+                android:id="@+id/rlAdicional"
+                android:weightSum="2">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imgClip"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_centerInParent="true"
+                        app:srcCompat="@drawable/clip" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imgCalendar"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_centerInParent="true"
+                        app:srcCompat="@drawable/calendar" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+

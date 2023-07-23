@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    android:layout_height="64dp">
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:background="#005089"
+        android:weightSum="140">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:id="@+id/rlHome"
+            android:layout_weight="20">
+
+            <ImageView
+                android:id="@+id/imgHome"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+
+                android:src="@drawable/home_blanco" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:id="@+id/rlBack"
+            android:layout_weight="20">
+
+            <ImageView
+                android:id="@+id/btnAnterior"
+                android:layout_width="24dp"
+                android:layout_height="32dp"
+
+                android:layout_centerInParent="true"
+
+                android:src="@drawable/ic_arrow_back_black_48dp"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24dp"
+                app:tint="#fff" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:id="@+id/rlNext"
+            android:layout_weight="20">
+
+            <ImageView
+                android:id="@+id/btnSiguiente"
+                android:layout_width="24dp"
+                android:layout_height="32dp"
+
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_arrow_forward_black_48dp"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24dp"
+                app:tint="#fff" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:id="@+id/rlCalendar"
+            android:layout_weight="20">
+
+            <ImageView
+                android:id="@+id/btnCalendario"
+                android:layout_width="24dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+
+                android:src="@drawable/calendar"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24dp"
+                android:visibility="gone"
+                app:tint="#fff" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:id="@+id/rlShare"
+            android:layout_weight="20">
+
+            <ImageView
+                android:id="@+id/btnCompartir"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+
+                android:src="@drawable/share"
+                android:textAlignment="center"
+
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24dp"
+                app:tint="#fff" />
+
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:id="@+id/rlFav"
+            android:layout_weight="20">
+
+            <ImageView
+                android:id="@+id/imgMovFav"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/estrella_fav_icono"
+                app:tint="#fff" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:id="@+id/rlDelete"
+            android:layout_weight="20">
+
+            <ImageView
+                android:id="@+id/imgEliminarSeleccionados"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="12dp"
+
+                android:src="@drawable/appmenu07"
+                app:tint="#fff" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>

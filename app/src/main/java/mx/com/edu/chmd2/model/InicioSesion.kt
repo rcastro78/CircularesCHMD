@@ -1,0 +1,36 @@
+package mx.com.edu.chmd2.model
+
+class InicioSesion : ArrayList<InicioSesionItem>()
+data class InicioSesionItem(
+    val becas: String,
+    val calle: String,
+    val celular: String,
+    val ciclo_escolar: String,
+    val colonia: String,
+    val correo: String,
+    val correo2: String,
+    val cp: String,
+    val ent: String,
+    val estatus: String,
+    val familia: String,
+    val fecha: String,
+    val fecha_update_beca: String,
+    val fotografia: String,
+    val id: String,
+    val id_familia: String,
+    val idalumno: String,
+    val idempleado: String,
+    val idschoolcloud: String,
+    val idschoolcloud_tutores: String,
+    val nombre: String,
+    val ntarjeton1: String,
+    val ntarjeton2: String,
+    val numero: String,
+    val perfil_admin: String,
+    val responsable: String,
+    val telefono: String,
+    val tipo: String,
+    val token: String,
+    val vigencia: String,
+    val nuevaFoto:String
+)

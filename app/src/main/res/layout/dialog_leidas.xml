@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:weightSum="100"
+    android:layout_height="180dp">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100"
+    android:layout_weight="35">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="70">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="18dp"
+            android:src="@drawable/appmenu04" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="30">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:gravity="center_horizontal"
+            android:text="¿Estás seguro de marcar como leída esta circular?"
+            android:textColor="@color/textoMasOscuro"
+            android:textSize="16dp" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="65"
+        android:weightSum="100">
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_weight="50">
+
+           <Button
+               android:id="@+id/btnCancelar"
+               android:layout_width="128dp"
+               android:layout_height="42dp"
+               android:layout_alignParentBottom="true"
+               android:layout_alignParentLeft="true"
+               android:layout_marginLeft="24dp"
+               android:layout_marginBottom="12dp"
+               android:background="@drawable/boton_redondeado_disable"
+               android:text="Cancelar"
+               android:textAllCaps="false"
+               android:textColor="@android:color/white"
+               app:backgroundTint="@null" />
+
+       </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="50">
+
+            <Button
+                android:id="@+id/btnAceptar"
+                android:layout_width="128dp"
+                android:layout_height="42dp"
+                android:layout_alignParentBottom="true"
+
+                android:layout_centerInParent="true"
+
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/boton_redondeado"
+                android:text="Aceptar"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@null" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

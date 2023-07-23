@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TodasCircularesActivity">
+
+    <include android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tool_bar"
+        android:weightSum="100"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="15">
+
+            <include
+                android:id="@+id/action_home_tool_bar_nav"
+                layout="@layout/toolbar_circulares_nav"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+
+                android:visibility="visible"
+                ></include>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/action_home_tool_bar_nav"
+                android:id="@+id/rvCirculares"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="85">
+
+            <include
+                android:id="@+id/action_home_tool_bar"
+                layout="@layout/toolbar_inferior"
+                android:layout_width="fill_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="24dp"
+                android:visibility="visible"
+                android:layout_marginRight="24dp"></include>
+
+
+            <include
+                android:id="@+id/action_home_tool_bar2"
+                layout="@layout/toolbar_circulares_mod"
+                android:layout_width="fill_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="24dp"
+                android:visibility="gone"
+                android:layout_marginRight="24dp"></include>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

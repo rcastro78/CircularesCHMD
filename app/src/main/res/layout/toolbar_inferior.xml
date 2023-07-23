@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+
+    android:layout_height="72dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    app:cardCornerRadius="12dp"
+    android:elevation="12dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="6dp"
+    android:weightSum="100">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="30"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rlTodas"
+            android:clickable="true"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/textoClaro"
+                android:id="@+id/vwTodas"
+                android:visibility="visible"/>
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/appmenu03"
+                app:tint="@color/textoOscuro" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:id="@+id/rlNoLeidas"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/textoClaro"
+                android:id="@+id/vwNoLeidas"
+                android:visibility="gone"/>
+
+                <RelativeLayout
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/rlHayNoLeidas"
+                    android:visibility="gone"
+                    android:layout_marginRight="16dp"
+                   android:layout_alignParentRight="true"
+                    android:background="@drawable/boton_redondeado"
+                    android:gravity="center_horizontal|center_vertical"
+                    >
+
+
+                </RelativeLayout>
+
+
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:id="@+id/imgNL"
+                android:layout_centerInParent="true"
+                android:src="@drawable/appmenu05"
+                app:tint="@color/textoOscuro" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rlFavs"
+            android:clickable="true"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/textoClaro"
+                android:id="@+id/vwFavs"
+                android:visibility="gone"/>
+
+            <RelativeLayout
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="4dp"
+                android:id="@+id/rlHayNoFavs"
+                android:visibility="gone"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/boton_redondeado"
+                android:gravity="center_horizontal|center_vertical"
+                >
+
+
+            </RelativeLayout>
+
+
+
+            <ImageView
+                android:id="@+id/imgFav"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/appmenu06"
+                app:tint="@color/textoOscuro" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rlEliminadas"
+            android:clickable="true"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_alignParentTop="true"
+                android:background="@android:color/holo_red_dark"
+                android:id="@+id/vwEliminadas"
+                android:visibility="gone"/>
+
+            <RelativeLayout
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="4dp"
+                android:id="@+id/rlHayNoLeidasElim"
+                android:visibility="gone"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/boton_redondeado_rojo"
+                android:gravity="center_horizontal|center_vertical"
+                >
+
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:id="@+id/imgEliminadas"
+                android:layout_centerInParent="true"
+                android:src="@drawable/appmenu07" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="70"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/textoOscuro"
+                android:text="Todas"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/textoOscuro"
+                android:text="No leídas"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/textoOscuro"
+                android:text="Favoritas"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="Eliminadas"
+                android:textColor="@android:color/holo_red_dark"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+</androidx.cardview.widget.CardView>

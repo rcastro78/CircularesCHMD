@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Circulares CHMD</string>
+    <string name="BASE_URL">https://www.chmd.edu.mx/</string>
+    <string name="PATH">WebAdminCirculares/ws/</string>
+    <string name="SHARED_PREF">mx.edu.chmd2.spref</string>
+</resources>
