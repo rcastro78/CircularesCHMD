@@ -117,11 +117,11 @@
                 android:id="@+id/btnCompartir"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+
                 android:layout_centerInParent="true"
-
                 android:src="@drawable/share"
-                android:textAlignment="center"
 
+                android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="24dp"
                 app:tint="#fff" />

@@ -28,16 +28,28 @@
                 layout="@layout/toolbar_circulares_nav"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_margin="8dp"
 
-                android:visibility="visible"
-                ></include>
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="visible"></include>
+
+            <SearchView
+                android:id="@+id/searchCirculares"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@id/action_home_tool_bar_nav"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="6dp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/action_home_tool_bar_nav"
+                android:layout_below="@+id/searchCirculares"
                 android:id="@+id/rvCirculares"/>
 
         </RelativeLayout>
@@ -52,10 +64,11 @@
                 layout="@layout/toolbar_inferior"
                 android:layout_width="fill_parent"
                 android:layout_height="?actionBarSize"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="24dp"
-                android:visibility="visible"
-                android:layout_marginRight="24dp"></include>
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="24dp"
+                android:visibility="visible"></include>
 
 
             <include

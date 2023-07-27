@@ -1,14 +1,25 @@
 package mx.com.edu.chmd2
 
+import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.print.PrintAttributes
+import android.print.PrintJob
+import android.print.PrintManager
 import android.util.Log
 import android.webkit.WebSettings
-import android.widget.Toast
+import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_circular.wvwDetalleCircular
-import kotlinx.android.synthetic.main.toolbar_circulares.*
-
+import kotlinx.android.synthetic.main.toolbar_circulares.imgMovFav
+import kotlinx.android.synthetic.main.toolbar_circulares.rlBack
+import kotlinx.android.synthetic.main.toolbar_circulares.rlCalendar
+import kotlinx.android.synthetic.main.toolbar_circulares.rlDelete
+import kotlinx.android.synthetic.main.toolbar_circulares.rlFav
+import kotlinx.android.synthetic.main.toolbar_circulares.rlHome
+import kotlinx.android.synthetic.main.toolbar_circulares.rlNext
+import kotlinx.android.synthetic.main.toolbar_circulares.rlShare
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,8 +29,10 @@ import mx.com.edu.chmd2.networking.CircularesAPI
 import mx.com.edu.chmd2.networking.IChmd
 import retrofit2.awaitResponse
 
+
 class CircularActivity : AppCompatActivity() {
     lateinit var iChmd: IChmd
+    lateinit var printJob: PrintJob
     var idx=0
     var idCircular:String=""
     var lstCirculares:ArrayList<Circular> = ArrayList()
@@ -46,13 +59,13 @@ class CircularActivity : AppCompatActivity() {
         wvwDetalleCircular.loadUrl(getString(R.string.BASE_URL) + getString(R.string.PATH) +"getCircularId6.php?id=" + idCircular)
         wvwDetalleCircular.settings.setSupportZoom(true)
         wvwDetalleCircular.settings.builtInZoomControls = true
-        wvwDetalleCircular.settings.setDisplayZoomControls(true)
+        wvwDetalleCircular.settings.displayZoomControls = true
         wvwDetalleCircular.settings.domStorageEnabled = true
         wvwDetalleCircular.settings.loadsImagesAutomatically = true
         wvwDetalleCircular.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         filtro = sharedPreferences!!.getInt("filtroIterar",0)
-        //userId = sharedPreferences!!.getString("userId","")!!.toString()
-        userId = "2484"
+        userId = sharedPreferences!!.getString("userId","")!!.toString()
+        //userId = "2484"
         if(filtro==0 || filtro==TODAS)
             getCirculares(userId)
 
@@ -69,7 +82,8 @@ class CircularActivity : AppCompatActivity() {
             onBackPressed()
         }
         rlShare.setOnClickListener {
-
+            //print(wvwDetalleCircular)
+            share(getString(R.string.BASE_URL) + getString(R.string.PATH) +"getCircularId6.php?id=" + idCircular)
         }
         rlCalendar.setOnClickListener {
             val horaICS = lstCirculares[idx].horaInicialIcs
@@ -321,5 +335,29 @@ class CircularActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun share(u:String){
+        val share = Intent(Intent.ACTION_SEND)
+        share.type = "text/plain"
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+        share.putExtra(Intent.EXTRA_SUBJECT, "Comparto la circular")
+        share.putExtra(Intent.EXTRA_TEXT, u)
+        startActivity(Intent.createChooser(share, "Compartir esta circular"))
+
+    }
+    fun print(webView: WebView){
+        val printManager = this
+            .getSystemService(Context.PRINT_SERVICE) as PrintManager
+        val jobName = idCircular + "-webpage-" + webView.url
+        val printAdapter = webView.createPrintDocumentAdapter(jobName)
+        printJob = printManager.print(
+            jobName, printAdapter,
+            PrintAttributes.Builder().build()
+        )
+
+
+
+
     }
 }

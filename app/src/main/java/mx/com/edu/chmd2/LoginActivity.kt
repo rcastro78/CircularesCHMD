@@ -3,10 +3,17 @@ package mx.com.edu.chmd2
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import kotlinx.android.synthetic.main.activity_login.btnLogin
+import kotlinx.android.synthetic.main.activity_login.rlLoginGoogle
 import kotlinx.android.synthetic.main.activity_login.txtEmail
 import kotlinx.android.synthetic.main.activity_login.txtPassword
 import kotlinx.android.synthetic.main.fondo_video.videoView
@@ -14,19 +21,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import mx.com.edu.chmd2.db.ChmdDB
-import mx.com.edu.chmd2.db.CircularDAO
-import mx.com.edu.chmd2.model.Circular
-import mx.com.edu.chmd2.model.Usuario
 import mx.com.edu.chmd2.networking.CircularesAPI
 import mx.com.edu.chmd2.networking.IChmd
 import retrofit2.awaitResponse
-import java.lang.Exception
-import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
     lateinit var iChmd: IChmd
     private var sharedPreferences: SharedPreferences? = null
+    lateinit var gso: GoogleSignInOptions
+    lateinit var mGoogleSignInClient: GoogleSignInClient
+    val RC_SIGN_IN=99
     fun injectFields(){
         txtEmail.setText("programador@chmd.edu.mx")
         txtPassword.setText("1463")
@@ -42,12 +46,13 @@ class LoginActivity : AppCompatActivity() {
         iChmd = CircularesAPI.getCHMDService()!!
         val SHARED:String=getString(R.string.SHARED_PREF)
         sharedPreferences = getSharedPreferences(SHARED, 0)
-       /* if(sharedPreferences!!.getBoolean("loggedIn",false)){
-            Intent(this@LoginActivity,TodasCircularesActivity::class.java).also {
-                startActivity(it)
-                finish()
-            }
-        }*/
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestProfile()
+            .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+
         videoView.setOnCompletionListener { videoView.start() }
         val uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.video_app)
         videoView.setVideoURI(uri)
@@ -58,6 +63,9 @@ class LoginActivity : AppCompatActivity() {
             val pwd = txtPassword.text.toString()
             if(correo.isNotEmpty() && pwd.isNotEmpty())
                 login(correo,pwd)
+        }
+        rlLoginGoogle.setOnClickListener {
+            signIn()
         }
 
 
@@ -89,6 +97,7 @@ class LoginActivity : AppCompatActivity() {
                             editor.apply()
                             if (r.id.isNotEmpty()) {
                                 getPermisos(r.id)
+
                             }
 
 
@@ -99,8 +108,13 @@ class LoginActivity : AppCompatActivity() {
 
 
                         }
+                        if(result.isEmpty()){
+                            Toast.makeText(applicationContext,"Credenciales incorrectas",Toast.LENGTH_LONG).show()
+                        }
 
                     }
+                }else{
+                    Toast.makeText(applicationContext,"Credenciales incorrectas",Toast.LENGTH_LONG).show()
                 }
             }catch (e:Exception){
                 Log.e("LOGIN",e.message.toString())
@@ -111,34 +125,118 @@ class LoginActivity : AppCompatActivity() {
 
 
     }
-    /*
-    fun getCirculares(usuario:String){
-        val db = ChmdDB.getInstance(this)
+
+    fun login(correo:String){
         CoroutineScope(Dispatchers.IO).launch {
-            db.iCircularDAO.eliminaTodasCirculares()
-            val response = iChmd.getCirculares(usuario)!!.awaitResponse()
-            if(response.isSuccessful){
-                val result = response.body()!!
-                result.forEach { c->
-                    if(c!!.eliminado=="0") {
-                        val circular = CircularDAO(0,c.id, c.titulo,
-                            c.leido.toInt(),c.favorito.toInt(),c.eliminado.toInt(),
-                            c.id_usuario,c.created_at,c.fecha_ics,c.adjunto,c.nivel)
-                        db.iCircularDAO.insert(circular)
-                    }
+            val response = iChmd.getUsuario(correo)!!.awaitResponse()
+            try {
+                if (response.isSuccessful) {
+                    val result = response.body()
+                    withContext(Dispatchers.Main) {
+                        val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
+                        result!!.forEach { r->
+                            editor.putString("correo", r.correo)
+                            editor.putString("userId", r.id)
+                            editor.putString("familia", r.familia)
+                            editor.putString("vigencia", r.vigencia)
+                            editor.putString("nombre", r.nombre)
+                            editor.putString("responsable",r.responsable)
+                            editor.putString("foto",r.fotografia)
+                            editor.putBoolean("loggedIn",true)
+                            if(r.nuevaFoto.isNotEmpty()) {
+                                editor.putString("nuevaFoto", r.nuevaFoto)
+                            }else{
+                                editor.putString("nuevaFoto", "")
+                            }
+                            editor.apply()
+                            if (r.id.isNotEmpty()) {
+                                getPermisos(r.id)
+                            }else{
+                                Toast.makeText(applicationContext,"Cuenta no registrada",Toast.LENGTH_LONG).show()
+                            }
 
-                }
-                withContext(Dispatchers.Main){
-                    Intent(this@LoginActivity,TodasCircularesActivity::class.java).also {
-                        startActivity(it)
-                        finish()
-                    }
-                }
 
+                            Intent(this@LoginActivity,TodasCircularesActivity::class.java).also {
+                                startActivity(it)
+                                finish()
+                            }
+
+
+                        }
+                        if(result.isEmpty()){
+                            Toast.makeText(applicationContext,"Cuenta no registrada",Toast.LENGTH_LONG).show()
+                        }
+
+                    }
+                }else{
+                    Toast.makeText(applicationContext,"Cuenta no registrada",Toast.LENGTH_LONG).show()
+                }
+            }catch (e:Exception){
+                Log.e("LOGIN",e.message.toString())
+            }
+        }
+
+
+
+
+    }
+
+    private fun signIn() {
+        val signInIntent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            try {
+                val result = Auth.GoogleSignInApi.getSignInResultFromIntent(
+                    data!!
+                )
+                handleSignInResult(result!!)
+            } catch (ex: java.lang.Exception) {
+                Log.d("ERROR_SIGNIN",ex.localizedMessage.toString())
+                Toast.makeText(applicationContext, ex.message, Toast.LENGTH_LONG).show()
             }
         }
     }
-*/
+
+    private fun handleSignInResult(result: GoogleSignInResult) {
+        Log.d("RESULTADO",result.toString())
+        if (result.isSuccess) {
+            val account = result.signInAccount
+
+            val editor = sharedPreferences!!.edit()
+            editor.putString("correoRegistrado", account!!.email)
+            editor.putString("nombre", account.displayName)
+            Log.d("RESULTADO",account.email.toString())
+            Log.d("RESULTADO",account.email.toString())
+            var userPic = ""
+            //Al venir la pic vacía daba error, se cerraba luego de escoger la cuenta.
+            userPic = try {
+                account.photoUrl.toString()
+            } catch (ex: java.lang.Exception) {
+                ""
+            }
+
+            editor.putString("userPic", userPic)
+            editor.putString("idToken", account.idToken)
+            editor.apply()
+            //val intent = Intent(this@LoginActivity, ValidarPadreActivity::class.java)
+            //startActivity(intent)
+            login(account.email!!)
+
+        } else {
+            //Log.w(TAG, "No se pudo iniciar sesión");
+            Toast.makeText(applicationContext, "" + result.status.statusMessage, Toast.LENGTH_LONG)
+                .show()
+            //Log.w(TAG, result.getStatus().getStatusMessage());
+            Log.w("RESULTADO", result.status.statusCode.toString() + "")
+        }
+    }
 
     fun getPermisos(idUsuario: String){
         val editor:SharedPreferences.Editor = sharedPreferences!!.edit()
@@ -146,13 +244,23 @@ class LoginActivity : AppCompatActivity() {
            val response = iChmd.getPermisos(idUsuario)!!.awaitResponse()
            if(response.isSuccessful){
                val result = response.body()!!
-
-               editor.putString("verCirculares",result[0].ver_circulares)
-               editor.putString("verCredencial",result[0].ver_credencial)
-               editor.putString("verMaguen",result[0].ver_miMaguen)
-               editor.apply()
+               try {
+                   editor.putString("verCirculares", result[0].ver_circulares)
+                   editor.putString("verCredencial", result[0].ver_credencial)
+                   editor.putString("verMaguen", result[0].ver_miMaguen)
+                   editor.apply()
+               }catch (e:java.lang.Exception){
+                   editor.putString("verCirculares", "1")
+                   editor.putString("verCredencial", "1")
+                   editor.putString("verMaguen", "1")
+                   editor.apply()
+               }
            }else{
                Log.d("PERMISOS","error ${response.code()}")
+               editor.putString("verCirculares", "1")
+               editor.putString("verCredencial", "1")
+               editor.putString("verMaguen", "1")
+               editor.apply()
            }
        }
     }

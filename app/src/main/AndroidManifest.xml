@@ -41,7 +41,19 @@
             android:exported="false" />
         <activity
             android:name=".CircularActivity"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="www.chmd.edu.mx"
+                    android:path="/WebAdminCirculares/ws/getCircularId6.php?id=1580" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".TodasCircularesActivity"
             android:exported="false" />
@@ -72,7 +84,6 @@
             </intent-filter>
         </service>
 
-       
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
