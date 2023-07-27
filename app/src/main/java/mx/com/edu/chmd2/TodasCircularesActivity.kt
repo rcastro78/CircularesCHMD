@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -68,12 +69,35 @@ class TodasCircularesActivity : AppCompatActivity() {
                 Log.e("TOKEN",it.message.toString())
             }
 
+        userId = sharedPreferences!!.getString("userId","")!!.toString()
 
-        userId = "2484"
+        //userId = "2484"
         verCredencial = sharedPreferences!!.getString("verCredencial","0").toString()
         verCirculares = sharedPreferences!!.getString("verCirculares","0").toString()
         verMiMaguen = sharedPreferences!!.getString("verMaguen","0").toString()
 
+        searchCirculares.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText!!.isEmpty()){
+                    getCirculares(userId)
+                }
+
+                if(newText.length>4){
+                   val lstFiltrada =
+                       lstCirculares.filter { it.encabezado.lowercase().contains(newText.lowercase()) }
+                    as ArrayList
+                    val adapter = CircularesAdapter(lstFiltrada,this@TodasCircularesActivity)
+                    rvCirculares.layoutManager = LinearLayoutManager(this@TodasCircularesActivity)
+                    rvCirculares.adapter = adapter
+                }
+                return true
+            }
+
+        })
 
         rlFavs.setOnClickListener{
           if(verCirculares.equals("1")) {
@@ -214,17 +238,39 @@ class TodasCircularesActivity : AppCompatActivity() {
 
 
         val filtro = sharedPreferences!!.getInt("filtroIterar",0)
-        if(filtro==0 || filtro==TODAS)
+        if(filtro==0 || filtro==TODAS) {
             getCirculares(userId)
+            vwFavs.visibility = View.GONE
+            vwTodas.visibility = View.VISIBLE
+            vwEliminadas.visibility = View.GONE
+            vwNoLeidas.visibility = View.GONE
+        }
 
-        if(filtro==FILTRA_NL)
+        if(filtro==FILTRA_NL) {
             getCircularesNoLeidas(userId)
+            vwFavs.visibility = View.GONE
+            vwTodas.visibility = View.GONE
+            vwEliminadas.visibility = View.GONE
+            vwNoLeidas.visibility = View.VISIBLE
+        }
 
-        if(filtro==FILTRA_FAVS)
+        if(filtro==FILTRA_FAVS) {
             getCircularesFavoritas(userId)
+            vwFavs.visibility = View.VISIBLE
+            vwTodas.visibility = View.GONE
+            vwEliminadas.visibility = View.GONE
+            vwNoLeidas.visibility = View.GONE
+        }
 
-        if(filtro==FILTRA_ELIMINADAS)
+
+        if(filtro==FILTRA_ELIMINADAS){
             getCircularesEliminadas(userId)
+            vwFavs.visibility = View.GONE
+            vwTodas.visibility = View.GONE
+            vwEliminadas.visibility = View.VISIBLE
+            vwNoLeidas.visibility = View.GONE
+        }
+
     }
 
     override fun onPause() {

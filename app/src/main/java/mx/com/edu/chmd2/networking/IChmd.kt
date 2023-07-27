@@ -26,6 +26,9 @@ interface IChmd {
     @GET("getUsuarioEmail.php")
     fun iniciarSesion(@Query("correo") correo: String?,@Query("pwd") pwd: String?): Call<InicioSesion?>?
 
+    @GET("getUsuarioEmail.php")
+    fun getUsuario(@Query("correo") correo: String?): Call<InicioSesion?>?
+
     @FormUrlEncoded
     @POST("leerCircular.php")
     fun leerCircular(
