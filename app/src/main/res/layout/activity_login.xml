@@ -43,7 +43,9 @@
         android:layout_marginRight="36dp"
         android:background="@drawable/bg_cuadros_texto2"
         android:padding="12dp"
+
         android:hint="Correo electrónico"
+        android:layout_centerVertical="true"
         android:inputType="textEmailAddress"
         android:id="@+id/txtEmail"/>
     <EditText
@@ -79,10 +81,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:gravity="center_vertical|center_horizontal"
             android:text="Iniciar Sesión con Google"
-            android:textSize="18dp"
-            android:layout_centerInParent="true"/>
+            android:fontFamily="@font/rubik_medium"
+            android:textSize="18dp" />
 
 
     </RelativeLayout>
@@ -97,11 +100,23 @@
         android:layout_marginBottom="12dp"
         android:background="@drawable/boton_redondeado"
         android:text="Iniciar Sesión"
+        android:fontFamily="@font/rubik_medium"
         android:textAllCaps="false"
         android:layout_marginTop="24dp"
         android:layout_below="@+id/rlLoginGoogle"
         android:textColor="@android:color/white"
         app:backgroundTint="@null" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.0"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/rubik_medium"
+        android:id="@+id/lblVersion"/>
 
 
 </RelativeLayout>

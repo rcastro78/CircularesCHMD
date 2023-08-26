@@ -7,9 +7,12 @@ import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintJob
 import android.print.PrintManager
+import android.provider.CalendarContract
 import android.util.Log
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_circular.wvwDetalleCircular
 import kotlinx.android.synthetic.main.toolbar_circulares.imgMovFav
@@ -28,6 +31,7 @@ import mx.com.edu.chmd2.model.Circular
 import mx.com.edu.chmd2.networking.CircularesAPI
 import mx.com.edu.chmd2.networking.IChmd
 import retrofit2.awaitResponse
+import java.text.SimpleDateFormat
 
 
 class CircularActivity : AppCompatActivity() {
@@ -46,16 +50,20 @@ class CircularActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_circular)
+        val SHARED:String=getString(R.string.SHARED_PREF)
+        sharedPreferences = getSharedPreferences(SHARED, 0)
         iChmd = CircularesAPI.getCHMDService()!!
         idCircular=intent.getStringExtra("idCircular")!!
         idx = idCircular.toInt()
+        filtro = sharedPreferences!!.getInt("filtroIterar",0)
+        userId = sharedPreferences!!.getString("userId","")!!.toString()
+
         setLeida(idCircular,userId)
         val esFavorita = intent.getIntExtra("esFavorita",0)
         if(esFavorita==1)
             imgMovFav.setBackgroundResource(R.drawable.estrella_blanca)
 
-        val SHARED:String=getString(R.string.SHARED_PREF)
-        sharedPreferences = getSharedPreferences(SHARED, 0)
+
         wvwDetalleCircular.loadUrl(getString(R.string.BASE_URL) + getString(R.string.PATH) +"getCircularId6.php?id=" + idCircular)
         wvwDetalleCircular.settings.setSupportZoom(true)
         wvwDetalleCircular.settings.builtInZoomControls = true
@@ -63,8 +71,7 @@ class CircularActivity : AppCompatActivity() {
         wvwDetalleCircular.settings.domStorageEnabled = true
         wvwDetalleCircular.settings.loadsImagesAutomatically = true
         wvwDetalleCircular.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-        filtro = sharedPreferences!!.getInt("filtroIterar",0)
-        userId = sharedPreferences!!.getString("userId","")!!.toString()
+
         //userId = "2484"
         if(filtro==0 || filtro==TODAS)
             getCirculares(userId)
@@ -86,10 +93,59 @@ class CircularActivity : AppCompatActivity() {
             share(getString(R.string.BASE_URL) + getString(R.string.PATH) +"getCircularId6.php?id=" + idCircular)
         }
         rlCalendar.setOnClickListener {
-            val horaICS = lstCirculares[idx].horaInicialIcs
-            if(horaICS != "00:00:00"){
+            val horaInicioIcs = lstCirculares[idx].horaInicialIcs
+            val horaFinIcs = lstCirculares[idx].horaFinalIcs
+            val ubicacionIcs = lstCirculares[idx].ubicacionIcs
+            val fechaIcs = lstCirculares[idx].fechaIcs
+            val temaIcs = lstCirculares[idx].temaIcs
+            val builder = AlertDialog.Builder(this@CircularActivity)
+            builder.setTitle("Calendario")
+            builder.setMessage("¿Estás seguro que quieres agregar este evento a tu calendario?")
+            builder.setPositiveButton(
+                "Establecer"
+            ) { _, _ ->
+                try {
+                    val startDate: String = "$fechaIcs $horaInicioIcs"
+                    val endDate: String = "$fechaIcs $horaFinIcs"
+                    val title: String = temaIcs
+                    val description = ""
+                    val location: String = ubicacionIcs
 
+                    if (!fechaIcs.equals("", ignoreCase = true)) {
+                        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                        val sdate = sdf.parse(startDate)
+                        val edate = sdf.parse(endDate)
+                        val startTime = sdate.time
+                        val endTime = edate.time
+                        val intent = Intent(Intent.ACTION_INSERT)
+                        intent.type = "vnd.android.cursor.item/event"
+                        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime)
+                        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime)
+                        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true)
+                        intent.putExtra(CalendarContract.Events.TITLE, title)
+                        intent.putExtra(CalendarContract.Events.DESCRIPTION, "")
+                        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, location)
+                        //intent.putExtra(CalendarContract.Events.RRULE, "FREQ=YEARLY");
+                        startActivity(intent)
+
+                        //Actualizar la circular, poner el recordatorio en 1
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "No se puede agregar al calendario, no tiene fecha",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
+                }
             }
+            builder.setNegativeButton("Cancelar", null)
+            val dialog = builder.create()
+            dialog.show()
+
+
+
         }
 
 
@@ -125,14 +181,24 @@ class CircularActivity : AppCompatActivity() {
         }
 
         rlFav.setOnClickListener {
-            if(lstCirculares[idx].favorita==1){
-                lstCirculares[idx].favorita = 0
-                noFavCircular(lstCirculares[idx].idCircular,userId)
-                imgMovFav.setBackgroundResource(R.drawable.estrella_fav_icono)
-            }else{
-                lstCirculares[idx].favorita = 1
-                favCircular(lstCirculares[idx].idCircular,userId)
-                imgMovFav.setBackgroundResource(R.drawable.estrella_blanca)
+            try {
+                if (lstCirculares[idx].favorita == 1) {
+                    lstCirculares[idx].favorita = 0
+                    noFavCircular(lstCirculares[idx].idCircular, userId)
+                    imgMovFav.setBackgroundResource(R.drawable.estrella_fav_icono)
+                } else {
+                    lstCirculares[idx].favorita = 1
+                    favCircular(lstCirculares[idx].idCircular, userId)
+                    imgMovFav.setBackgroundResource(R.drawable.estrella_blanca)
+                }
+            }catch (e:Exception){
+                if(esFavorita==0){
+                    favCircular(idCircular, userId)
+                    imgMovFav.setBackgroundResource(R.drawable.estrella_blanca)
+                }else{
+                    noFavCircular(idCircular,userId)
+                    imgMovFav.setBackgroundResource(R.drawable.estrella_fav_icono)
+                }
             }
         }
 
@@ -154,8 +220,9 @@ class CircularActivity : AppCompatActivity() {
     fun setLeida(idCircular:String,usuario: String){
         CoroutineScope(Dispatchers.IO).launch {
             val response = iChmd.leerCircular(idCircular,usuario)!!.awaitResponse()
+            Log.d("LEIDA",response.code().toString())
             if(response.isSuccessful){
-                Log.d("FAVORITA",response.body().toString())
+                Log.d("LEIDA",response.body().toString())
             }
         }
     }

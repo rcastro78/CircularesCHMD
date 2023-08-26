@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_todas_circulares.*
 import kotlinx.android.synthetic.main.toolbar_circulares_mod.*
@@ -34,6 +37,7 @@ import mx.com.edu.chmd2.model.Circular
 import mx.com.edu.chmd2.networking.CircularesAPI
 import mx.com.edu.chmd2.networking.IChmd
 import retrofit2.awaitResponse
+import java.lang.Exception
 
 class TodasCircularesActivity : AppCompatActivity() {
     var seleccionados:ArrayList<String> = ArrayList()
@@ -59,7 +63,7 @@ class TodasCircularesActivity : AppCompatActivity() {
         iChmd = CircularesAPI.getCHMDService()!!
         userId = sharedPreferences!!.getString(userId,"")!!.toString()
         val correo = sharedPreferences!!.getString("correo","")!!.toString()
-
+        pbar.visibility = View.VISIBLE
         FirebaseMessaging.getInstance().token
             .addOnSuccessListener {tk->
                 Log.d("TOKEN",tk)
@@ -100,6 +104,7 @@ class TodasCircularesActivity : AppCompatActivity() {
         })
 
         rlFavs.setOnClickListener{
+           pbar.visibility = View.VISIBLE
           if(verCirculares.equals("1")) {
            vwFavs.visibility = View.VISIBLE
            vwTodas.visibility = View.GONE
@@ -115,6 +120,7 @@ class TodasCircularesActivity : AppCompatActivity() {
         }
         rlTodas.setOnClickListener {
             if(verCirculares.equals("1")) {
+                pbar.visibility = View.VISIBLE
                 vwFavs.visibility = View.GONE
                 vwTodas.visibility = View.VISIBLE
                 vwEliminadas.visibility = View.GONE
@@ -129,6 +135,7 @@ class TodasCircularesActivity : AppCompatActivity() {
         }
 
         rlNoLeidas.setOnClickListener {
+            pbar.visibility = View.VISIBLE
             if(verCirculares.equals("1")) {
             vwFavs.visibility = View.GONE
             vwTodas.visibility = View.GONE
@@ -144,6 +151,7 @@ class TodasCircularesActivity : AppCompatActivity() {
         }
 
         rlEliminadas.setOnClickListener {
+            pbar.visibility = View.VISIBLE
             if(verCirculares.equals("1")) {
             vwFavs.visibility = View.GONE
             vwTodas.visibility = View.GONE
@@ -218,6 +226,22 @@ class TodasCircularesActivity : AppCompatActivity() {
         }
 
         rlCerrarSesion.setOnClickListener {
+           try {
+               val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                   .requestEmail()
+                   .requestProfile()
+                   .build()
+               val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+               mGoogleSignInClient.signOut().addOnCompleteListener {
+                   val intent = Intent(this, LoginActivity::class.java)
+                   startActivity(intent)
+                   finish()
+               }
+           }catch (_:Exception){
+
+           }
+
+
             Intent(this,LoginActivity::class.java).also {
                 startActivity(it)
                 val editor:SharedPreferences.Editor = sharedPreferences!!.edit()
@@ -225,6 +249,9 @@ class TodasCircularesActivity : AppCompatActivity() {
                 editor.apply()
                 finish()
             }
+
+
+
         }
 
 
@@ -328,7 +355,7 @@ class TodasCircularesActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main){
 
 
-
+                    pbar.visibility = View.GONE
                     val adapter = CircularesAdapter(lstCirculares,this@TodasCircularesActivity)
                     val itemTouchCallback: ItemTouchHelper.SimpleCallback = object :
                         ItemTouchHelper.SimpleCallback(
@@ -497,7 +524,7 @@ class TodasCircularesActivity : AppCompatActivity() {
                     }
                 }
                 withContext(Dispatchers.Main){
-
+                    pbar.visibility = View.GONE
                     val adapter = CircularesAdapter(lstCirculares,this@TodasCircularesActivity)
                     rvCirculares.layoutManager = LinearLayoutManager(this@TodasCircularesActivity)
                     rvCirculares.adapter = adapter
@@ -538,6 +565,7 @@ class TodasCircularesActivity : AppCompatActivity() {
                     }
                 }
                 withContext(Dispatchers.Main){
+                    pbar.visibility = View.GONE
                     val adapter = CircularesAdapter(lstCirculares,this@TodasCircularesActivity)
                     rvCirculares.layoutManager = LinearLayoutManager(this@TodasCircularesActivity)
                     rvCirculares.adapter = adapter
@@ -579,6 +607,7 @@ class TodasCircularesActivity : AppCompatActivity() {
                     }
                 }
                 withContext(Dispatchers.Main){
+                    pbar.visibility = View.GONE
                     val adapter = CircularesAdapter(lstCirculares,this@TodasCircularesActivity)
                     rvCirculares.layoutManager = LinearLayoutManager(this@TodasCircularesActivity)
                     rvCirculares.adapter = adapter

@@ -21,18 +21,6 @@
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/fabLogin"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
-        android:clickable="true"
-        app:fabSize="normal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="12dp"
-        app:elevation="6dp"
-        android:background="@drawable/log_in" />
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="192dp"
@@ -41,4 +29,24 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         app:srcCompat="@drawable/app03" />
+
+
+    <ProgressBar
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/pbar"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Recuperando informacion...."
+        android:layout_below="@id/pbar"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/rubik_medium"
+        android:layout_marginTop="18dp"/>
+
+
+
 </RelativeLayout>

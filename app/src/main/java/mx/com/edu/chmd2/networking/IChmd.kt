@@ -23,7 +23,7 @@ interface IChmd {
     @GET("cifrar.php")
     fun getCifrado(@Query("idUsuario") idUsuario: String?): Call<Cifrado?>?
 
-    @GET("getUsuarioEmail.php")
+    @GET("getUsuarioEmail2.php")
     fun iniciarSesion(@Query("correo") correo: String?,@Query("pwd") pwd: String?): Call<InicioSesion?>?
 
     @GET("getUsuarioEmail.php")
@@ -64,7 +64,7 @@ interface IChmd {
         @Field("usuario_id") usuario_id: String?
     ): Call<String?>?
 
-    @GET("getCirculares_iOS.php")
+    @GET("getCirculares_Android.php")
     fun getCirculares(@Query("usuario_id") usuario_id: String?): Call<List<Circulares?>?>?
 
     @FormUrlEncoded

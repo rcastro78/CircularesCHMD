@@ -23,6 +23,14 @@
             android:layout_height="match_parent"
             android:layout_weight="15">
 
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:id="@+id/pbar"
+                android:visibility="gone"/>
+
             <include
                 android:id="@+id/action_home_tool_bar_nav"
                 layout="@layout/toolbar_circulares_nav"
@@ -49,6 +57,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                tools:listitem="@layout/item_circular"
                 android:layout_below="@+id/searchCirculares"
                 android:id="@+id/rvCirculares"/>
 

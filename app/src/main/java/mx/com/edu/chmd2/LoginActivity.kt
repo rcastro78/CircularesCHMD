@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.Auth
@@ -13,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import kotlinx.android.synthetic.main.activity_login.btnLogin
+import kotlinx.android.synthetic.main.activity_login.lblVersion
 import kotlinx.android.synthetic.main.activity_login.rlLoginGoogle
 import kotlinx.android.synthetic.main.activity_login.txtEmail
 import kotlinx.android.synthetic.main.activity_login.txtPassword
@@ -43,21 +45,33 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        lblVersion.text = "Versión: "+BuildConfig.VERSION_NAME
         iChmd = CircularesAPI.getCHMDService()!!
+        //injectFields()
         val SHARED:String=getString(R.string.SHARED_PREF)
         sharedPreferences = getSharedPreferences(SHARED, 0)
+        val verUserPwd = sharedPreferences!!.getString("verUserPwd","1")
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestProfile()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
+        Log.d("VER_C",verUserPwd.toString())
+        if(verUserPwd=="0"){
+            txtEmail.visibility = View.GONE
+            txtPassword.visibility = View.GONE
+            btnLogin.visibility = View.GONE
+        }else{
+            txtEmail.visibility = View.VISIBLE
+            txtPassword.visibility = View.VISIBLE
+            btnLogin.visibility = View.VISIBLE
+        }
 
         videoView.setOnCompletionListener { videoView.start() }
         val uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.video_app)
         videoView.setVideoURI(uri)
         videoView.start()
-        injectFields()
+        //injectFields()
         btnLogin.setOnClickListener{
             val correo = txtEmail.text.toString()
             val pwd = txtPassword.text.toString()
@@ -130,7 +144,7 @@ class LoginActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val response = iChmd.getUsuario(correo)!!.awaitResponse()
             try {
-                if (response.isSuccessful) {
+                if (response.code()==200) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
                         val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
@@ -169,6 +183,7 @@ class LoginActivity : AppCompatActivity() {
 
                     }
                 }else{
+                    mGoogleSignInClient.signOut()
                     Toast.makeText(applicationContext,"Cuenta no registrada",Toast.LENGTH_LONG).show()
                 }
             }catch (e:Exception){
@@ -199,7 +214,7 @@ class LoginActivity : AppCompatActivity() {
                 handleSignInResult(result!!)
             } catch (ex: java.lang.Exception) {
                 Log.d("ERROR_SIGNIN",ex.localizedMessage.toString())
-                Toast.makeText(applicationContext, ex.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Inicio de sesión cancelado", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -248,11 +263,13 @@ class LoginActivity : AppCompatActivity() {
                    editor.putString("verCirculares", result[0].ver_circulares)
                    editor.putString("verCredencial", result[0].ver_credencial)
                    editor.putString("verMaguen", result[0].ver_miMaguen)
+                   editor.putString("verUserPwd",result[0].ver_user_pwd)
                    editor.apply()
                }catch (e:java.lang.Exception){
                    editor.putString("verCirculares", "1")
                    editor.putString("verCredencial", "1")
                    editor.putString("verMaguen", "1")
+                   editor.putString("verUserPwd","1")
                    editor.apply()
                }
            }else{
@@ -260,6 +277,7 @@ class LoginActivity : AppCompatActivity() {
                editor.putString("verCirculares", "1")
                editor.putString("verCredencial", "1")
                editor.putString("verMaguen", "1")
+               editor.putString("verUserPwd","1")
                editor.apply()
            }
        }
