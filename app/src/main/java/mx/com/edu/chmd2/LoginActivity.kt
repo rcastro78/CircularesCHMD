@@ -1,7 +1,9 @@
 package mx.com.edu.chmd2
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -27,6 +29,7 @@ import mx.com.edu.chmd2.networking.CircularesAPI
 import mx.com.edu.chmd2.networking.IChmd
 import retrofit2.awaitResponse
 
+
 class LoginActivity : AppCompatActivity() {
     lateinit var iChmd: IChmd
     private var sharedPreferences: SharedPreferences? = null
@@ -42,10 +45,14 @@ class LoginActivity : AppCompatActivity() {
         super.onBackPressed()
         finish()
     }
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        lblVersion.text = "Versión: "+BuildConfig.VERSION_NAME
+        val pInfo: PackageInfo =
+            this.packageManager.getPackageInfo(this.packageName, 0)
+        val version = pInfo.versionName
+        lblVersion.text = "Versión: "+pInfo.versionName
         iChmd = CircularesAPI.getCHMDService()!!
         //injectFields()
         val SHARED:String=getString(R.string.SHARED_PREF)
