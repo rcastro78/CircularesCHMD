@@ -49,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
         val pInfo: PackageInfo =
             this.packageManager.getPackageInfo(this.packageName, 0)
         val version = pInfo.versionName
@@ -57,12 +58,17 @@ class LoginActivity : AppCompatActivity() {
         //injectFields()
         val SHARED:String=getString(R.string.SHARED_PREF)
         sharedPreferences = getSharedPreferences(SHARED, 0)
+        val loggedIn = sharedPreferences!!.getBoolean("loggedIn",false)
+        val correo = sharedPreferences!!.getString("correo","")
         val verUserPwd = sharedPreferences!!.getString("verUserPwd","1")
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestProfile()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        validarCuenta(correo!!,loggedIn)
+
+
         Log.d("VER_C",verUserPwd.toString())
         if(verUserPwd=="0"){
             txtEmail.visibility = View.GONE
@@ -130,12 +136,18 @@ class LoginActivity : AppCompatActivity() {
 
                         }
                         if(result.isEmpty()){
-                            Toast.makeText(applicationContext,"Credenciales incorrectas",Toast.LENGTH_LONG).show()
+                            withContext(Dispatchers.Main){
+                                Toast.makeText(applicationContext,"Credenciales incorrectas",Toast.LENGTH_LONG).show()
+                            }
+
                         }
 
                     }
                 }else{
-                    Toast.makeText(applicationContext,"Credenciales incorrectas",Toast.LENGTH_LONG).show()
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(applicationContext,"Credenciales incorrectas",Toast.LENGTH_LONG).show()
+                    }
+
                 }
             }catch (e:Exception){
                 Log.e("LOGIN",e.message.toString())
@@ -150,6 +162,16 @@ class LoginActivity : AppCompatActivity() {
     fun login(correo:String){
         CoroutineScope(Dispatchers.IO).launch {
             val response = iChmd.getUsuario(correo)!!.awaitResponse()
+            Log.d("RESPONSE",response.code().toString())
+
+            if(response.code()==400){
+                withContext(Dispatchers.Main){
+                    Toast.makeText(applicationContext,"No puedes iniciar sesión",Toast.LENGTH_LONG).show()
+                }
+
+
+            }
+
             try {
                 if (response.code()==200) {
                     val result = response.body()
@@ -173,7 +195,10 @@ class LoginActivity : AppCompatActivity() {
                             if (r.id.isNotEmpty()) {
                                 getPermisos(r.id)
                             }else{
-                                Toast.makeText(applicationContext,"Cuenta no registrada",Toast.LENGTH_LONG).show()
+                                withContext(Dispatchers.Main){
+                                    Toast.makeText(applicationContext,"Cuenta no registrada",Toast.LENGTH_LONG).show()
+                                }
+
                             }
 
 
@@ -185,14 +210,28 @@ class LoginActivity : AppCompatActivity() {
 
                         }
                         if(result.isEmpty()){
-                            Toast.makeText(applicationContext,"Cuenta no registrada",Toast.LENGTH_LONG).show()
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Cuenta no registrada",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
 
                     }
                 }else{
                     mGoogleSignInClient.signOut()
-                    Toast.makeText(applicationContext,"Cuenta no registrada",Toast.LENGTH_LONG).show()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            applicationContext,
+                            "Cuenta no registrada",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
+
+
             }catch (e:Exception){
                 Log.e("LOGIN",e.message.toString())
             }
@@ -200,6 +239,26 @@ class LoginActivity : AppCompatActivity() {
 
 
 
+
+    }
+
+
+    fun validarCuenta(correo: String,loggedIn:Boolean){
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = iChmd.validarCuenta(correo)!!.awaitResponse()
+            Log.d("VALIDEZ",response.body().toString())
+            if(response.isSuccessful){
+                val existe = response.body()?.get(0)?.existe
+                withContext(Dispatchers.Main){
+                    if(existe=="1" && loggedIn)
+                        Intent(this@LoginActivity,TodasCircularesActivity::class.java).also {
+                            startActivity(it)
+                            finish()
+                        }
+                }
+
+            }
+        }
 
     }
 
@@ -253,7 +312,7 @@ class LoginActivity : AppCompatActivity() {
 
         } else {
             //Log.w(TAG, "No se pudo iniciar sesión");
-            Toast.makeText(applicationContext, "" + result.status.statusMessage, Toast.LENGTH_LONG)
+            Toast.makeText(applicationContext, "No puedes iniciar sesión" + result.status.statusMessage, Toast.LENGTH_LONG)
                 .show()
             //Log.w(TAG, result.getStatus().getStatusMessage());
             Log.w("RESULTADO", result.status.statusCode.toString() + "")

@@ -15,8 +15,8 @@ android {
         applicationId "mx.com.edu.chmd2"
         minSdk 24
         targetSdk 33
-        versionCode 3
-        versionName "3.0.0"
+        versionCode 302
+        versionName "3.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

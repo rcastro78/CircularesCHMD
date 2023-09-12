@@ -3,6 +3,7 @@ package mx.com.edu.chmd2.networking
 import mx.com.edu.chmd2.model.AppPermisos
 import mx.com.edu.chmd2.model.Cifrado
 import mx.com.edu.chmd2.model.Circulares
+import mx.com.edu.chmd2.model.ExisteCuenta
 import mx.com.edu.chmd2.model.InicioSesion
 import mx.com.edu.chmd2.model.InicioSesionItem
 import mx.com.edu.chmd2.model.Vigencia
@@ -18,7 +19,7 @@ interface IChmd {
 
 
     @GET("validarEmail.php")
-    fun validarCuenta(@Query("correo") correo: String?): Call<String?>?
+    fun validarCuenta(@Query("correo") correo: String?): Call<ExisteCuenta?>?
 
     @GET("cifrar.php")
     fun getCifrado(@Query("idUsuario") idUsuario: String?): Call<Cifrado?>?
