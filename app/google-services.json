@@ -15,6 +15,14 @@
       "oauth_client": [
         {
           "client_id": "1084021759750-8kv1bh3e227i3q5h6mg12k4k62opm5np.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mx.com.edu.chmd2",
+            "certificate_hash": "ac11d346b91b50e13b70a56d7cc55ea4637b67fc"
+          }
+        },
+        {
+          "client_id": "1084021759750-lafvdm4ee1bvuvtvrdjtp0463ipibv16.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +37,13 @@
             {
               "client_id": "1084021759750-lafvdm4ee1bvuvtvrdjtp0463ipibv16.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1084021759750-ngc7b85h4svm9f7qt6nl8njkvcbhlfti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "edu.mx.chmd.Circulares"
+              }
             }
           ]
         }
